@@ -6,7 +6,7 @@ import math
 import torch
 import pandas  as pd
 
-from natsort import natsorted
+# from natsort import natsorted
 from PIL import Image
 import numpy as np
 from torch.utils.data import Dataset, ConcatDataset, Subset
