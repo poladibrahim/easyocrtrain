@@ -234,8 +234,8 @@ def train(opt, show_number = 2, amp=False):
             optimizer.step()
         loss_avg.add(cost)
         if i % 2 == 0:
-            print(f'Iteration {i}: Training Loss {cost_item}')
-            print(f'Iteration {i}: Average Loss {loss_avg_val}')
+            print(f'Iteration {i}: Training Loss {cost.item()}')
+            print(f'Iteration {i}: Average Loss {loss_avg.val(}')
         log_and_print(i, cost.item(), loss_avg.val())
 
         # validation part
