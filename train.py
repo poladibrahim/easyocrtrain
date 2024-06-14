@@ -233,6 +233,9 @@ def train(opt, show_number = 2, amp=False):
             torch.nn.utils.clip_grad_norm_(model.parameters(), opt.grad_clip) 
             optimizer.step()
         loss_avg.add(cost)
+        if i % 2 == 0:
+            print(f'Iteration {i}: Training Loss {cost_item}')
+            print(f'Iteration {i}: Average Loss {loss_avg_val}')
         log_and_print(i, cost.item(), loss_avg.val())
 
         # validation part
