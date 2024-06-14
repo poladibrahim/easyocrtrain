@@ -7,8 +7,8 @@ valid_data: 'all_data/en_val'
 manualSeed: 1111
 workers: 2
 batch_size: 16 # 32
-num_iter: 5000
-valInterval: 6000
+num_iter: 10000
+valInterval: 500
 saved_model: '' #'saved_models/en_filtered/iter_300000.pth'
 FT: False
 optim: False # default is Adadelta
@@ -39,7 +39,7 @@ num_fiducial: 20
 input_channel: 1
 output_channel: 256
 hidden_size: 256
-decode: 'beamsearch'
+decode: 'greedy'
 new_prediction: False
 freeze_FeatureFxtraction: False
 freeze_SequenceModeling: False
