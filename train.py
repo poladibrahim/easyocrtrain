@@ -32,6 +32,14 @@ def count_parameters(model):
         print(name, param)
     print(f"Total Trainable Params: {total_params}")
     return total_params
+def log_and_print(i, cost_item, loss_avg_val, file_path='training_output.txt'):
+    if i % 2 == 0:
+        print(f'Iteration {i}: Training Loss {cost_item}')
+        print(f'Iteration {i}: Average Loss {loss_avg_val}')
+    with open(file_path, 'a') as file:
+        file.write(f'Iteration {i}: Training Loss {cost_item}\n')
+        file.write(f'Iteration {i}: Average Loss {loss_avg_val}\n')
+
 
 def train(opt, show_number = 2, amp=False):
     """ dataset preparation """
@@ -225,6 +233,7 @@ def train(opt, show_number = 2, amp=False):
             torch.nn.utils.clip_grad_norm_(model.parameters(), opt.grad_clip) 
             optimizer.step()
         loss_avg.add(cost)
+        log_and_print(i, cost.item(), loss_avg.val())
 
         # validation part
         if (i % opt.valInterval == 0) and (i!=0):
