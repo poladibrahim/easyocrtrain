@@ -33,12 +33,12 @@ def count_parameters(model):
     print(f"Total Trainable Params: {total_params}")
     return total_params
 def log_and_print(i, cost_item, loss_avg_val, file_path='training_output.txt'):
-    if i % 2 == 0:
-        print(f'Iteration {i}: Training Loss {cost_item}')
+    if i % 100 == 0:
+        # print(f'Iteration {i}: Training Loss {cost_item}')
         print(f'Iteration {i}: Average Loss {loss_avg_val}')
-    with open(file_path, 'a') as file:
-        file.write(f'Iteration {i}: Training Loss {cost_item}\n')
-        file.write(f'Iteration {i}: Average Loss {loss_avg_val}\n')
+    # with open(file_path, 'a') as file:
+    #     file.write(f'Iteration {i}: Training Loss {cost_item}\n')
+    #     file.write(f'Iteration {i}: Average Loss {loss_avg_val}\n')
 
 
 def train(opt, show_number = 2, amp=False):
@@ -186,7 +186,8 @@ def train(opt, show_number = 2, amp=False):
     counter = 0
     while(counter<opt.num_iter):
         # train part
-        print("cournter is",counter)
+        if counter%10==0:
+            print("cournter is",counter)
         counter+=1
         optimizer.zero_grad(set_to_none=True)
         
