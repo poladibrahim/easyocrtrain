@@ -34,7 +34,7 @@ data_filtering_off: False
 Transformation: 'None'
 FeatureExtraction: 'VGG'
 SequenceModeling: 'BiLSTM'
-Prediction: 'Atnn'
+Prediction: 'Attn'
 num_fiducial: 20
 input_channel: 1
 output_channel: 256
