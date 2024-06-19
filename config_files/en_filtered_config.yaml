@@ -32,9 +32,9 @@ contrast_adjust: 0.0
 data_filtering_off: False
 # Model Architecture
 Transformation: 'None'
-FeatureExtraction: 'ResNet'
+FeatureExtraction: 'VGG'
 SequenceModeling: 'BiLSTM'
-Prediction: 'CTC'
+Prediction: 'Atnn'
 num_fiducial: 20
 input_channel: 1
 output_channel: 256
