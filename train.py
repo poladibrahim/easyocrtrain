@@ -33,6 +33,14 @@ def count_parameters(model):
         print(name, param)
     print(f"Total Trainable Params: {total_params}")
     return total_params
+def log_and_print(i, cost_item, loss_avg_val, file_path='training_output.txt'):
+    if i % 100 == 0:
+        # print(f'Iteration {i}: Training Loss {cost_item}')
+        print(f'Iteration {i}: Average Loss {loss_avg_val}')
+    # with open(file_path, 'a') as file:
+    #     file.write(f'Iteration {i}: Training Loss {cost_item}\n')
+    #     file.write(f'Iteration {i}: Average Loss {loss_avg_val}\n')
+
 
 def log_and_print(i, cost_item, loss_avg_val, file_path='training_output.txt'):
     with open(file_path, 'a') as file:
@@ -189,7 +197,8 @@ def train(opt, show_number = 2, amp=False):
     counter = 0
     while(counter<opt.num_iter):
         # train part
-        print("cournter is",counter)
+        if counter%10==0:
+            print("cournter is",counter)
         counter+=1
         optimizer.zero_grad(set_to_none=True)
         
@@ -236,6 +245,7 @@ def train(opt, show_number = 2, amp=False):
             torch.nn.utils.clip_grad_norm_(model.parameters(), opt.grad_clip) 
             optimizer.step()
         loss_avg.add(cost)
+        log_and_print(i, cost.item(), loss_avg.val())
 
         log_and_print(i,cost.item(), loss_avg.val())
 
@@ -262,7 +272,7 @@ def train(opt, show_number = 2, amp=False):
                 # keep best accuracy model (on valid dataset)
                 if current_accuracy > best_accuracy:
                     best_accuracy = current_accuracy
-                    torch.save(model.state_dict(), f'./saved_models/{opt.experiment_name}/best_accuracy.pth')
+                    torch.save(model.state_dict(), f'./saved_models/{opt.experiment_name}/best_accuracy_{i+1}.pth')
                 if current_norm_ED > best_norm_ED:
                     best_norm_ED = current_norm_ED
                     torch.save(model.state_dict(), f'./saved_models/{opt.experiment_name}/best_norm_ED.pth')
@@ -292,7 +302,7 @@ def train(opt, show_number = 2, amp=False):
                 print('validation time: ', time.time()-t1)
                 t1=time.time()
         # save model per 1e+4 iter.
-        if (i + 1) % 500 == 0:
+        if (i + 1) % 1000 == 0:
             torch.save(
                 model.state_dict(), f'./saved_models/{opt.experiment_name}/iter_{i+1}.pth')
 

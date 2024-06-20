@@ -289,9 +289,6 @@ class CTCLabelConverter(object):
             char_list = []
             print("t is in decode_greedy",t)
             for indices in t:
-                if indices.dim() == 0:
-                    indices = indices.unsqueeze(0) 
-                # print("indeces are",indices)
                 for i in range(len(indices)):
                     if indices[i].item() not in self.ignore_idx and (i == 0 or indices[i].item() != indices[i - 1].item()):  # removing repeated characters and blank (and separator).
                         char_list.append(self.character[indices[i].item()])
