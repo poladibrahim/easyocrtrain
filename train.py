@@ -41,14 +41,6 @@ def log_and_print(i, cost_item, loss_avg_val, file_path='training_output.txt'):
     #     file.write(f'Iteration {i}: Training Loss {cost_item}\n')
     #     file.write(f'Iteration {i}: Average Loss {loss_avg_val}\n')
 
-
-def log_and_print(i, cost_item, loss_avg_val, file_path='training_output.txt'):
-    with open(file_path, 'a') as file:
-        if i % 2 == 0:
-            print(f'Iteration {i}: Training Loss {cost_item}')
-            print(f'Iteration {i}: Average Loss {loss_avg_val}')
-            file.write(f'Iteration {i}: Training Loss {cost_item}\n')
-            file.write(f'Iteration {i}: Average Loss {loss_avg_val}\n')
 def train(opt, show_number = 2, amp=False):
     """ dataset preparation """
     
@@ -246,8 +238,6 @@ def train(opt, show_number = 2, amp=False):
             optimizer.step()
         loss_avg.add(cost)
         log_and_print(i, cost.item(), loss_avg.val())
-
-        log_and_print(i,cost.item(), loss_avg.val())
 
         # validation part
         
