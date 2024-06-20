@@ -16,6 +16,7 @@ from dataset import hierarchical_dataset, AlignCollate, Batch_Balanced_Dataset
 from model import Model
 from testt import validation
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+from torch.utils.tensorboard import SummaryWriter
 
 import torch
 
@@ -33,8 +34,18 @@ def count_parameters(model):
     print(f"Total Trainable Params: {total_params}")
     return total_params
 
+def log_and_print(i, cost_item, loss_avg_val, file_path='training_output.txt'):
+    with open(file_path, 'a') as file:
+        if i % 2 == 0:
+            print(f'Iteration {i}: Training Loss {cost_item}')
+            print(f'Iteration {i}: Average Loss {loss_avg_val}')
+            file.write(f'Iteration {i}: Training Loss {cost_item}\n')
+            file.write(f'Iteration {i}: Average Loss {loss_avg_val}\n')
 def train(opt, show_number = 2, amp=False):
     """ dataset preparation """
+    
+    writer = SummaryWriter(log_dir=f'./runs/{opt.experiment_name}')
+
     if not opt.data_filtering_off:
         print('Filtering the images containing characters which are not in opt.character')
         print('Filtering the images whose label is longer than opt.batch_max_length')
@@ -226,7 +237,10 @@ def train(opt, show_number = 2, amp=False):
             optimizer.step()
         loss_avg.add(cost)
 
+        log_and_print(i,cost.item(), loss_avg.val())
+
         # validation part
+        
         if (i % opt.valInterval == 0) and (i!=0):
             print('training time: ', time.time()-t1)
             t1=time.time()

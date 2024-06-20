@@ -107,7 +107,7 @@ def validation(model, criterion, evaluation_loader, converter, opt, device):
             confidence_score_list.append(confidence_score)
             # print(pred, gt, pred==gt, confidence_score)
 
-    accuracy = n_correct / float(length_of_data) * 100
+    accuracy = (n_correct / float(length_of_data)) * 100
     norm_ED = norm_ED / float(length_of_data) # ICDAR2019 Normalized Edit Distance
 
     return valid_loss_avg.val(), accuracy, norm_ED, preds_str, confidence_score_list, labels, infer_time, length_of_data
