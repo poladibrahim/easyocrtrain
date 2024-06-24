@@ -31,7 +31,7 @@ PAD: True
 contrast_adjust: 0.0
 data_filtering_off: False
 # Model Architecture
-Transformation: 'None'
+Transformation: 'TPS'
 FeatureExtraction: 'VGG'
 SequenceModeling: 'BiLSTM'
 Prediction: 'CTC'
@@ -39,7 +39,7 @@ num_fiducial: 20
 input_channel: 1
 output_channel: 256
 hidden_size: 256
-decode: 'greedy'
+decode: 'beamsearch'
 new_prediction: False
 freeze_FeatureFxtraction: False
 freeze_SequenceModeling: False
