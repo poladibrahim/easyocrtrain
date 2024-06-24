@@ -129,7 +129,7 @@ class Batch_Balanced_Dataset(object):
             try:
                 image, text = next(data_loader_iter)
                 balanced_batch_images.append(image)
-                print("text is",text)
+                # print("text is",text)
                 
                 # current_data = []
                 # for word in text:
@@ -154,8 +154,8 @@ class Batch_Balanced_Dataset(object):
                 pass
 
         balanced_batch_images = torch.cat(balanced_batch_images, 0)
-        print("balanced_batch_texts is",balanced_batch_texts)
-        print("balanced_batch_columns is",balanced_batch_columns)
+        # print("balanced_batch_texts is",balanced_batch_texts)
+        # print("balanced_batch_columns is",balanced_batch_columns)
 
         return balanced_batch_images, balanced_batch_texts
 
