@@ -49,7 +49,7 @@ def validation(model, criterion, evaluation_loader, converter, opt, device):
                 preds_index = preds_index.view(-1)
                 preds_str = converter.decode_greedy(preds_index.data, preds_size.data)
             elif opt.decode == 'beamsearch':
-                preds_str = converter.decode_beamsearch(preds, beamWidth=3)
+                preds_str = converter.decode_beamsearch(preds, beamWidth=2)
 
 
         else:
