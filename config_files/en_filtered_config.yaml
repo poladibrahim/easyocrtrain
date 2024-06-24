@@ -11,8 +11,8 @@ num_iter: 100000
 valInterval: 5000
 saved_model: '' #'saved_models/en_filtered/iter_300000.pth'
 FT: False
-optim: 'adam' # default is Adadelta
-lr: 1.
+optim: '' # default is Adadelta
+lr: 0.98
 beta1: 0.9
 rho: 0.95
 eps: 0.00000001
@@ -31,7 +31,7 @@ PAD: True
 contrast_adjust: 0.0
 data_filtering_off: False
 # Model Architecture
-Transformation: 'TPS'
+Transformation: ''
 FeatureExtraction: 'VGG'
 SequenceModeling: 'BiLSTM'
 Prediction: 'CTC'
