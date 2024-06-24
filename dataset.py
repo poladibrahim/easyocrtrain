@@ -90,7 +90,7 @@ class Batch_Balanced_Dataset(object):
 
             _data_loader = torch.utils.data.DataLoader(
                 _dataset, batch_size=_batch_size,
-                shuffle=True,
+                shuffle=False,
                 num_workers=int(opt.workers), #prefetch_factor=2,persistent_workers=True,
                 collate_fn=_AlignCollate, pin_memory=True)
             self.data_loader_list.append(_data_loader)
@@ -105,16 +105,46 @@ class Batch_Balanced_Dataset(object):
         print(Total_batch_size_log)
         log.write(Total_batch_size_log + '\n')
         log.close()
+    import re
+    def isPlateNumber(self,s):
+        pattern1 = r'[A-Za-z]{2}\d{4}[A-Za-z]{2}/[A-Za-z]{2}\d{4}[A-Za-z]{2}' #DONE  "SD2345RT/RG5735ER"
+        pattern2 = r'\d{4}[A-Za-z]{3}/\d{4}[A-Za-z]{3}' # 9273AGG/5341TAG
+        pattern3 = r'\d{2}[A-Za-z]{3}\d{3}'
+        pattern4 = r'\d{2}[A-Za-z]{2}\d{3}'
+        pattern5 = r'\d{4}[A-Za-z]{3}'
+        pattern6 = r'[A-Za-z]{3}\d3[A-Za-z]{1}'
+        if re.search(pattern1, s) or re.search(pattern2, s) or re.search(pattern3, s) or re.search(pattern4, s) or re.search(pattern5, s) or re.search(pattern6, s):
+            return True
+        else:
+            False
 
     def get_batch(self):
         balanced_batch_images = []
         balanced_batch_texts = []
 
+        balanced_batch_columns = []
+        destination_country =["TURKEY","AZERBAYJAN"],
+
         for i, data_loader_iter in enumerate(self.dataloader_iter_list):
             try:
                 image, text = next(data_loader_iter)
                 balanced_batch_images.append(image)
+                print("text is",text)
+                
+                # current_data = []
+                # for word in text:
+                #     if word in destination_country:
+                #         current_data.append(word)
+                #     else:
+                #         if lines[index-1] in destination_country and self.isPlateNumber(lines[index+1]):
+                #             current_data.append(word)
+                #         if lines[index-1] in destination_country and self.isPlateNumber(lines[index+2]):
+                #             current_data.append(lines[index]+ ' ' + lines[index+1])
+                #         else:
+                #             current_data.append(word)
+
                 balanced_batch_texts += text
+                balanced_batch_columns += 'shippers'
             except StopIteration:
                 self.dataloader_iter_list[i] = iter(self.data_loader_list[i])
                 image, text = next(self.dataloader_iter_list[i])
@@ -124,6 +154,8 @@ class Batch_Balanced_Dataset(object):
                 pass
 
         balanced_batch_images = torch.cat(balanced_batch_images, 0)
+        print("balanced_batch_texts is",balanced_batch_texts)
+        print("balanced_batch_columns is",balanced_batch_columns)
 
         return balanced_batch_images, balanced_batch_texts
 

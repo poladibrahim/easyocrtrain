@@ -40,6 +40,15 @@ def log_and_print(i, cost_item, loss_avg_val, file_path='training_output.txt'):
     # with open(file_path, 'a') as file:
     #     file.write(f'Iteration {i}: Training Loss {cost_item}\n')
     #     file.write(f'Iteration {i}: Average Loss {loss_avg_val}\n')
+def log_and_print_column_loss(i, cost_item, loss_avg_val, file_path='training_output.txt'):
+    if i % 100 == 0:
+        # print(f'Iteration {i}: Training Loss {cost_item}')
+        print(f'Iteration {i}: Average Loss {loss_avg_val}')
+    # with open(file_path, 'a') as file:
+    #     file.write(f'Iteration {i}: Training Loss {cost_item}\n')
+    #     file.write(f'Iteration {i}: Average Loss {loss_avg_val}\n')
+
+
 
 def train(opt, show_number = 2, amp=False):
     """ dataset preparation """
@@ -59,7 +68,7 @@ def train(opt, show_number = 2, amp=False):
     valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt)
     valid_loader = torch.utils.data.DataLoader(
         valid_dataset, batch_size=min(32, opt.batch_size),
-        shuffle=True,  # 'True' to check training progress with validation function.
+        shuffle=False,  # 'True' to check training progress with validation function.
         num_workers=int(opt.workers), prefetch_factor=512,
         collate_fn=AlignCollate_valid, pin_memory=True)
     log.write(valid_dataset_log)
